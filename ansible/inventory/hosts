@@ -1,0 +1,12 @@
+[jenkins]
+jenkinshost
+
+[kafka:children]
+kafkaserver
+kafkaclient
+
+[kafkaserver]
+kafkahost
+
+[kafkaclient]
+apphost

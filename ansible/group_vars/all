@@ -1,0 +1,13 @@
+# Here are variables related to the jenkins pipeline setup
+
+kafka_home: /app/local/kafka/
+kaska_host: kafkahost
+kafka_port: 9092
+zookeepr_host: zoohost
+zoookeeper_port: 2181
+jenkins_home: /app/local/jenkins/
+repo_ear_base_url: http://repohost/repo/com/adp/m/M.ear
+landscape_name: "DEV"
+deploy_artifact_name: "M.ear"
+topic_name: "JenkinsPipeline"
+deploy_status_file: "/tmp/DeployStatus"

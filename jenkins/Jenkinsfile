@@ -1,0 +1,16 @@
+/**
+* Created On: February 2017 
+* Created By: DevOps
+* Description: This is the jenkins grovy file that is responsible for performing the build
+*
+**/
+node ('pull'){
+  git url: 'https://github.com/anandvijayan/jenkins-pipeline-kafka.git'
+  withEnv(["PATH+MAVEN=${tool 'M3'}/bin"]) {
+    sh 'cd src'
+    sh 'echo Building the source code..'
+    sh 'mvn clean install'
+    sh 'echo Deploying the source code to repo..'
+    sh 'mvn deploy:deploy'
+  }
+}

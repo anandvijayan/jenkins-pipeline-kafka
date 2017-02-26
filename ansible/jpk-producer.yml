@@ -1,0 +1,11 @@
+---
+- name: Produces messages jenkins regarding queued builds ready for deployment
+  hosts: jenkins
+  gather_facts: False
+
+  # load AWS variables from this group vars file
+  vars_files:
+  - group_vars/all
+
+  roles:
+  - produce

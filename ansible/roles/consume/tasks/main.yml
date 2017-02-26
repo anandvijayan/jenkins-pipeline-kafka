@@ -1,0 +1,21 @@
+---
+-at:
+   script:bash -lc "bin/kafka-console-consumer.sh --zookeeper {{ zookeper_host }}:{{ zookeper_port }} topic {{ topic_name }} --from-beginning | grep {{ landscape_name }}|{{ deploy_artifact_name }}"
+     unique:true
+     count:20
+     units:minutes
+
+- name: Check the contents of deploy file
+    command: "cat {{ deploy_status_file }}"
+    register: is_deploy
+    
+- name: Copy application EAR file to host
+    get_url:
+      url: {{ repo_ear_base_url }}
+      dest: "/tmp/{{ deploy_artifact_name }}"
+      mode: 0644
+    
+- name: Deploy app
+    command: "deploy.sh /tmp/{{ deploy_artifact_name }}" 
+    when: isdeploy.stdout != ""
+  
