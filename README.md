@@ -1,7 +1,7 @@
 #Jenkins Pipeline using Kafka
 
 The purpose of this wiki page was to demonstrate the complete release management workflow using Jenkins pipelining using Kafka to asynchronously deploy applications to servers in different landscapes. Ansible is used to schedule the deployment to occur at a stipulated time in future. There are several steps involved in accomplishing this.
-Please visit the [Wiki|https://github.com/anandvijayan/jenkins-pipeline-kafka/wiki] for a more details.
+Please visit the [[Wiki|wiki page]] for a more details.
 
 ##Pre-requisites
 1. Jenkins 2.0 has already been installed on jenkinshost
