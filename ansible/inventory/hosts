@@ -8,5 +8,21 @@ kafkaclient
 [kafkaserver]
 kafkahost
 
-[kafkaclient]
-apphost
+[kafkaclient:children]
+kafkaclientdev
+kafkaclientqa
+kafkaclientint
+apphoststage
+
+[kafkaclientdev]
+apphostdev
+
+[kafkaclientqa]
+apphostqa
+
+[kafkaclientint]
+apphostint
+
+[kafkaclientstage]
+apphoststage
+
