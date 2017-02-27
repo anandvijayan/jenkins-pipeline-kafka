@@ -2,6 +2,7 @@
 
 The purpose of this wiki page was to demonstrate the complete release management workflow using Jenkins pipelining using Kafka to asynchronously deploy applications to servers in different landscapes. Ansible is used to schedule the deployment to occur at a stipulated time in future. There are several steps involved in accomplishing this.
 Please visit the [Wiki Page](https://github.com/anandvijayan/jenkins-pipeline-kafka/wiki) for a more details.
+#Jenkins Pipeline using Kafka
 
 ##Pre-requisites
 1. Jenkins 2.0 has already been installed on jenkinshost 
@@ -18,7 +19,7 @@ Please visit the [Wiki Page](https://github.com/anandvijayan/jenkins-pipeline-ka
 
 ##Steps involved in the setup
 1. Jenkins checkout code from scm, runs a maven build and deploys artifacts (ear/war/zip) to a repository.
-2. After the deployment a kafka producer queues up a message in format LANDSCAPE|ARTIFACTNAME (e.g. DEV|M.ear)
+2. After the deployment a kafka producer queues up a message in format BRANCH|ARTIFACTNAME (e.g. DEV|M.ear)
 <pre>echo -e "DEV|M.ear" | bin/kafka-console-producer.sh --broker-list kafkahost:9092 --topic JenkinsPipeline</pre>
 3. Ansible sends a message to apphost for a scheduled deployment in 20 minutes
 <pre>
@@ -28,7 +29,7 @@ Please visit the [Wiki Page](https://github.com/anandvijayan/jenkins-pipeline-ka
   count:20
   units:minutes
 </pre>
-4. After 20 minutes the kafka consumer wakes up and checks the kafka queue for a pertinent message in format LANDSCAPE|ARTIFACTNAME (e.g. DEV|M.ear)
+4. After 20 minutes the kafka consumer wakes up and checks the kafka queue for a pertinent message in format BRANCH|ARTIFACTNAME (e.g. DEV|M.ear)
 <pre>bin/kafka-console-consumer.sh --zookeeper kafkahost:2181 --topic JenkinsPipeline --from-beginning | grep DEV|M.ear</pre>
 5. If a message is found then the app deployment is performed on app host and the logs are pushed to log monitoring tool (Splunk/ELK) that in turn sends out email/text notifications.
 
