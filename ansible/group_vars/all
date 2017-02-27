@@ -7,7 +7,10 @@ zookeepr_host: zoohost
 zoookeeper_port: 2181
 jenkins_home: /app/local/jenkins/
 repo_ear_base_url: http://repohost/repo/com/adp/m/M.ear
-landscape_name: "DEV"
-deploy_artifact_name: "M.ear"
+deploy_artifact_name: "M"
+deploy_artifact_version: "1.2.0"
+deploy_artifact_ext: "ear"
+schedule_count: "20"
+schedule_units: "minutes"
 topic_name: "JenkinsPipeline"
 deploy_status_file: "/tmp/DeployStatus"

@@ -1,9 +1,9 @@
 ---
 -at:
-   script:bash -lc "bin/kafka-console-consumer.sh --zookeeper {{ zookeper_host }}:{{ zookeper_port }} topic {{ topic_name }} --from-beginning | grep {{ landscape_name }}|{{ deploy_artifact_name }}"
-     unique:true
-     count:20
-     units:minutes
+   script: bash -lc "bin/kafka-console-consumer.sh --zookeeper {{ zookeper_host }}:{{ zookeper_port }} topic {{ topic_name }} --from-beginning | grep {{ deploy_artifact_name }}-{{ deploy_artifact_version }}.{{ deploy_artifact_ext }} > {{ deploy_status_file }}"
+     unique: true
+     count: {{ schedule_count }}
+     units: {{ schedule_units }}
 
 - name: Check the contents of deploy file
     command: "cat {{ deploy_status_file }}"

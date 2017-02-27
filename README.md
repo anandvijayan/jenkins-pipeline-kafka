@@ -19,18 +19,18 @@ Please visit the [Wiki Page](https://github.com/anandvijayan/jenkins-pipeline-ka
 
 ##Steps involved in the setup
 1. Jenkins checkout code from scm, runs a maven build and deploys artifacts (ear/war/zip) to a repository.
-2. After the deployment a kafka producer queues up a message in format BRANCH|ARTIFACTNAME (e.g. DEV|M.ear)
-<pre>echo -e "DEV|M.ear" | bin/kafka-console-producer.sh --broker-list kafkahost:9092 --topic JenkinsPipeline</pre>
+2. After the deployment a kafka producer queues up a message in format ARTIFACT-VERSION.jar|ARTIFACT-VERSION.zip (e.g. M-1.2.0.ear|db-1.2.0.ear)
+<pre>echo -e "M-1.2.0.ear|db-1.2.0.ear" | bin/kafka-console-producer.sh --broker-list kafkahost:9092 --topic JenkinsPipeline</pre>
 3. Ansible sends a message to apphost for a scheduled deployment in 20 minutes
 <pre>
 -at:
-  script:bash -lc "bin/kafka-console-consumer.sh --zookeeper zoohost:2181 --topic JenkinsPipeline --from-beginning |  grep DEV|M.ear > /tmp/DeployStatus"
+  script:bash -lc "bin/kafka-console-consumer.sh --zookeeper zoohost:2181 --topic JenkinsPipeline --from-beginning |  grep M-1.2.0.ear|db-1.2.0.ear > /tmp/DeployStatus"
   unique:true
   count:20
   units:minutes
 </pre>
-4. After 20 minutes the kafka consumer wakes up and checks the kafka queue for a pertinent message in format BRANCH|ARTIFACTNAME (e.g. DEV|M.ear)
-<pre>bin/kafka-console-consumer.sh --zookeeper zoohost:2181 --topic JenkinsPipeline --from-beginning | grep DEV|M.ear</pre>
+4. After 20 minutes the kafka consumer wakes up and checks the kafka queue for a pertinent message in format ARTIFACT-VERSION.jar|ARTIFACT-VERSION.zip (e.g. M-1.2.0.ear|db-1.2.0.ear)
+<pre>bin/kafka-console-consumer.sh --zookeeper zoohost:2181 --topic JenkinsPipeline --from-beginning | grep M-1.2.0.ear|db-1.2.0.ear</pre>
 5. If a message is found then the app deployment is performed on app host and the logs are pushed to log monitoring tool (Splunk/ELK) that in turn sends out email/text notifications.
 
 ## References
